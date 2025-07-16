@@ -30,7 +30,6 @@ func call(srv string, name string, args any, reply any) bool {
 	}
 	defer c.Close()
 
-	//
 	err = c.Call(name, args, reply)
 	if err != nil {
 		return false
