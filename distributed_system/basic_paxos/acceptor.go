@@ -10,7 +10,7 @@ import (
 type Acceptor struct {
 	lis net.Listener
 
-	// 服务器 id, 存储服务器 RPC 端口
+	// 接受者 id, 存储接受者服务的 RPC 端口
 	id int
 
 	// 第一阶段接受者承诺的提案编号。为 0 则表示接受者没有收到过任何提案者发送的 Prepare 消息
