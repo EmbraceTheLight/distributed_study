@@ -17,6 +17,23 @@ type Learner struct {
 	acceptedMsg map[int]MsgArgs
 }
 
+func newLearner(id int, acceptorIds []int) *Learner {
+	learner := &Learner{
+		id:          id,
+		acceptedMsg: make(map[int]MsgArgs),
+	}
+
+	// 初始化接受者提案 map 信息
+	for _, aid := range acceptorIds {
+		learner.acceptedMsg[aid] = MsgArgs{
+			Number: 0,
+			Value:  nil,
+		}
+	}
+	learner.server(id)
+	return learner
+}
+
 func (learner *Learner) Learn(args *MsgArgs, reply *MsgReply) error {
 	accepted := learner.acceptedMsg[args.From]
 
@@ -52,23 +69,6 @@ func (learner *Learner) chosen() any {
 
 func (learner *Learner) majority() int {
 	return len(learner.acceptedMsg)/2 + 1
-}
-
-func (learner *Learner) newLearner(id int, acceptorIds []int) *Learner {
-	l := &Learner{
-		id:          id,
-		acceptedMsg: make(map[int]MsgArgs),
-	}
-
-	// 初始化接受者提案 map 信息
-	for _, aid := range acceptorIds {
-		l.acceptedMsg[aid] = MsgArgs{
-			Number: 0,
-			Value:  nil,
-		}
-	}
-	learner.server(id)
-	return learner
 }
 
 func (learner *Learner) server(id int) {
